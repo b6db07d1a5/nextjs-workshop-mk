@@ -6,6 +6,9 @@ const ContentItem = (props) => {
     return (
         <div style={{display: 'inline', padding: 20}}>
             {name}
+            <button>
+                detail
+            </button>
             <button onClick={menuClick(id)}>
                 buy
             </button>

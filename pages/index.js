@@ -11,7 +11,6 @@ function categoryReducer(state = {}, action) {
                 id: action.categoryId,
                 contentDisplay: action.contentDisplay}
         case 'CART_CLICK':
-            console.log('cart click')
             return {...state, 
                 contentDisplay: action.contentDisplay}
         default:
