@@ -24,14 +24,22 @@ class Content extends Component {
         })
     }
 
+    menuClick = (menuId) => () => {
+        this.props.dispatch({
+            type:'ADD_MENU', 
+            menuItem: this.state.menus.find((menu)=> menu.id === menuId)
+        })
+    }
+
     render() {
         const { menus } = this.state
         return (
             <div>
-                {menus.map((menu, i) => <ContentItem key={`menu ${i}`} item={menu.name} />)}
+                {menus.map((menu, i) => <ContentItem key={`menu ${i}`} menuClick={this.menuClick} item={menu} />)}
             </div>
         );
     }
 }
 export default connect(state => ({
-    category: state.category}))(Content)
+    category: state.category,
+    menu: state.menu}))(Content)

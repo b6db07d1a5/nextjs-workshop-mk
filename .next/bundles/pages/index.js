@@ -315,6 +315,15 @@ var Content = function (_Component) {
             }).then(function (data) {
                 _this.setState({ menus: data });
             });
+        }, _this.menuClick = function (menuId) {
+            return function () {
+                _this.props.dispatch({
+                    type: 'ADD_MENU',
+                    menuItem: _this.state.menus.find(function (menu) {
+                        return menu.id === menuId;
+                    })
+                });
+            };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -331,6 +340,8 @@ var Content = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var menus = this.state.menus;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -338,13 +349,13 @@ var Content = function (_Component) {
                 {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 30
+                        lineNumber: 37
                     }
                 },
                 menus.map(function (menu, i) {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentItem__["a" /* default */], { key: 'menu ' + i, item: menu.name, __source: {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentItem__["a" /* default */], { key: 'menu ' + i, menuClick: _this2.menuClick, item: menu, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 31
+                            lineNumber: 38
                         }
                     });
                 })
@@ -362,7 +373,8 @@ var Content = function (_Component) {
 
 var _default = Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(function (state) {
     return {
-        category: state.category };
+        category: state.category,
+        menu: state.menu };
 })(Content);
 
 /* harmony default export */ __webpack_exports__["a"] = (_default);
@@ -395,67 +407,41 @@ var _default = Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect *
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/ContentItem.js';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 (function () {
     var enterModule = __webpack_require__("./node_modules/react-hot-loader/patch.js").enterModule;
 
     enterModule && enterModule(module);
 })();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
+var ContentItem = function ContentItem(props) {
+    var _props$item = props.item,
+        id = _props$item.id,
+        name = _props$item.name;
 
-var ContentItem = function (_Component) {
-    _inherits(ContentItem, _Component);
-
-    function ContentItem() {
-        _classCallCheck(this, ContentItem);
-
-        return _possibleConstructorReturn(this, (ContentItem.__proto__ || Object.getPrototypeOf(ContentItem)).apply(this, arguments));
-    }
-
-    _createClass(ContentItem, [{
-        key: 'render',
-        value: function render() {
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { style: { display: 'inline', padding: 20 }, __source: {
-                        fileName: _jsxFileName,
-                        lineNumber: 6
-                    }
-                },
-                this.props.item,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'button',
-                    {
-                        __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 9
-                        }
-                    },
-                    'buy'
-                )
-            );
-        }
-    }, {
-        key: '__reactstandin__regenerateByEval',
-        value: function __reactstandin__regenerateByEval(key, code) {
-            this[key] = eval(code);
-        }
-    }]);
-
-    return ContentItem;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+    var menuClick = props.menuClick;
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { style: { display: 'inline', padding: 20 }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 7
+            }
+        },
+        name,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'button',
+            { onClick: menuClick(id), __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 9
+                }
+            },
+            'buy'
+        )
+    );
+};
 
 var _default = ContentItem;
-
-
 /* harmony default export */ __webpack_exports__["a"] = (_default);
 ;
 
@@ -604,9 +590,9 @@ var Sidebar = function (_Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             categories: Array()
-        }, _this.categoryClick = function (clickedValue) {
+        }, _this.categoryClick = function (categoryId) {
             return function () {
-                _this.props.dispatch({ type: 'CLICK_CATEGORY', categoryId: clickedValue });
+                _this.props.dispatch({ type: 'CLICK_CATEGORY', categoryId: categoryId });
             };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -5044,28 +5030,42 @@ function categoryReducer() {
     }
 }
 
+function menuReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { items: Array() };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case 'ADD_MENU':
+            console.log(state);
+            var add = state.items;
+            add.push(action.menuItem);
+            return _extends({}, state, { items: add });
+        case 'REMOVE_MENU':
+            return state;
+        default:
+            return state;
+    }
+}
+
 var indexReducer = Object(__WEBPACK_IMPORTED_MODULE_1_redux__["b" /* combineReducers */])({
-    category: categoryReducer
+    category: categoryReducer,
+    menu: menuReducer
 });
 
 var store = Object(__WEBPACK_IMPORTED_MODULE_1_redux__["c" /* createStore */])(indexReducer);
-
-var Index = Object(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(function (state) {
-    return { category: state.category };
-})(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */]);
 
 var _default = function _default() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
         { store: store, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 26
+                lineNumber: 39
             }
         },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Index, {
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */], {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 27
+                lineNumber: 40
             }
         })
     );
@@ -5084,9 +5084,9 @@ var _default = function _default() {
     }
 
     reactHotLoader.register(categoryReducer, 'categoryReducer', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/pages/index.js');
+    reactHotLoader.register(menuReducer, 'menuReducer', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/pages/index.js');
     reactHotLoader.register(indexReducer, 'indexReducer', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/pages/index.js');
     reactHotLoader.register(store, 'store', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/pages/index.js');
-    reactHotLoader.register(Index, 'Index', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/pages/index.js');
     reactHotLoader.register(_default, 'default', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/pages/index.js');
     leaveModule(module);
 })();

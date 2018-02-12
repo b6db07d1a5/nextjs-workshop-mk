@@ -13,18 +13,31 @@ function categoryReducer(state = {}, action) {
     }
 }
 
+function menuReducer(state = {items: Array()}, action) {
+    switch(action.type){
+        case 'ADD_MENU':
+            console.log(state)
+            let add = state.items
+            add.push(action.menuItem)
+            return {...state, items: add}
+        case 'REMOVE_MENU':
+            return state
+        default:
+            return state
+    }
+}
+
 const indexReducer = combineReducers({
-    category: categoryReducer
+    category: categoryReducer,
+    menu: menuReducer
 })
 
 const store = createStore(indexReducer)
 
-const Index = connect(state => ({category: state.category}))(App)
-
 export default () => {
     return (
       <Provider store={store}>
-        <Index />
+        <App />
       </Provider>
     )
 }

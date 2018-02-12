@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ContentItem extends Component {
-    render() {
-        return (
-            <div style={{display: 'inline', padding: 20}}>
-                {this.props.item}
-
-                <button>
-                    buy
-                    </button>
-            </div>
-        );
-    }
-}
+const ContentItem = (props) => {
+    const {id, name} = props.item
+    const menuClick = props.menuClick
+    return (
+        <div style={{display: 'inline', padding: 20}}>
+            {name}
+            <button onClick={menuClick(id)}>
+                buy
+            </button>
+        </div>
+    );
+};
 
 export default ContentItem;

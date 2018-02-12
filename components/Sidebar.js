@@ -14,8 +14,8 @@ class Sidebar extends Component {
         })
     }
 
-    categoryClick = (clickedValue) => () => {
-        this.props.dispatch({type:'CLICK_CATEGORY', categoryId: clickedValue})
+    categoryClick = (categoryId) => () => {
+        this.props.dispatch({type:'CLICK_CATEGORY', categoryId: categoryId})
     }
     
     render() {
