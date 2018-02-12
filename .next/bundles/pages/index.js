@@ -335,7 +335,15 @@ var Content = function (_Component) {
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            this.retrieveMenus(nextProps.category.id);
+            var contentDisplay = nextProps.category.contentDisplay;
+
+            if (contentDisplay === 'category') {
+                this.retrieveMenus(nextProps.category.id);
+            } else {
+                var items = nextProps.menu.items;
+
+                this.setState({ menus: items });
+            }
         }
     }, {
         key: 'render',
@@ -349,13 +357,13 @@ var Content = function (_Component) {
                 {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 37
+                        lineNumber: 44
                     }
                 },
                 menus.map(function (menu, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentItem__["a" /* default */], { key: 'menu ' + i, menuClick: _this2.menuClick, item: menu, __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 38
+                            lineNumber: 45
                         }
                     });
                 })
@@ -470,6 +478,7 @@ var _default = ContentItem;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("./node_modules/react/cjs/react.development.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__("./node_modules/react-redux/es/index.js");
 var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/Header.js';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -488,13 +497,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+
+var styles = { display: 'inline-block', paddingRight: 20 };
+
 var Header = function (_Component) {
     _inherits(Header, _Component);
 
     function Header() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, Header);
 
-        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Header.__proto__ || Object.getPrototypeOf(Header)).call.apply(_ref, [this].concat(args))), _this), _this.headerClick = function (headerValue) {
+            return function () {
+                _this.props.dispatch({ type: 'CART_CLICK', contentDisplay: headerValue });
+            };
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(Header, [{
@@ -505,10 +529,37 @@ var Header = function (_Component) {
                 {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 6
+                        lineNumber: 14
                     }
                 },
-                'Header'
+                'Header',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 16
+                        }
+                    },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'p',
+                        { style: styles, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 17
+                            }
+                        },
+                        'menus'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'p',
+                        { style: styles, onClick: this.headerClick('cart'), __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 18
+                            }
+                        },
+                        'cart'
+                    )
+                )
             );
         }
     }, {
@@ -521,8 +572,10 @@ var Header = function (_Component) {
     return Header;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-var _default = Header;
-
+var _default = Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(function (state) {
+    return {
+        category: state.category };
+})(Header);
 
 /* harmony default export */ __webpack_exports__["a"] = (_default);
 ;
@@ -536,6 +589,7 @@ var _default = Header;
         return;
     }
 
+    reactHotLoader.register(styles, 'styles', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/Header.js');
     reactHotLoader.register(Header, 'Header', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/Header.js');
     reactHotLoader.register(_default, 'default', '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/Header.js');
     leaveModule(module);
@@ -592,7 +646,11 @@ var Sidebar = function (_Component) {
             categories: Array()
         }, _this.categoryClick = function (categoryId) {
             return function () {
-                _this.props.dispatch({ type: 'CLICK_CATEGORY', categoryId: categoryId });
+                _this.props.dispatch({
+                    type: 'CATEGORY_CLICK',
+                    categoryId: categoryId,
+                    contentDisplay: 'category'
+                });
             };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -613,7 +671,7 @@ var Sidebar = function (_Component) {
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CategoriesList__["a" /* default */], { categoryClick: this.categoryClick, categories: this.state.categories, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 23
+                    lineNumber: 27
                 }
             });
         }
@@ -5023,8 +5081,14 @@ function categoryReducer() {
     var action = arguments[1];
 
     switch (action.type) {
-        case 'CLICK_CATEGORY':
-            return _extends({}, state, { id: action.categoryId });
+        case 'CATEGORY_CLICK':
+            return _extends({}, state, {
+                id: action.categoryId,
+                contentDisplay: action.contentDisplay });
+        case 'CART_CLICK':
+            console.log('cart click');
+            return _extends({}, state, {
+                contentDisplay: action.contentDisplay });
         default:
             return state;
     }
@@ -5059,13 +5123,13 @@ var _default = function _default() {
         __WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
         { store: store, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 39
+                lineNumber: 45
             }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */], {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 40
+                lineNumber: 46
             }
         })
     );

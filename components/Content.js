@@ -12,7 +12,14 @@ class Content extends Component {
         this.retrieveMenus()
     }
     componentWillReceiveProps(nextProps){
-        this.retrieveMenus(nextProps.category.id)
+        const { contentDisplay } = nextProps.category
+        if(contentDisplay === 'category') {
+            this.retrieveMenus(nextProps.category.id)
+        }
+        else {
+            const { items } = nextProps.menu
+            this.setState({menus: items})
+        }
     }
 
     retrieveMenus = (categoryId = 0) => {

@@ -6,8 +6,14 @@ import App from '../components/App'
 
 function categoryReducer(state = {}, action) {
     switch(action.type){
-        case 'CLICK_CATEGORY':
-            return {...state, id: action.categoryId}
+        case 'CATEGORY_CLICK':
+            return {...state, 
+                id: action.categoryId,
+                contentDisplay: action.contentDisplay}
+        case 'CART_CLICK':
+            console.log('cart click')
+            return {...state, 
+                contentDisplay: action.contentDisplay}
         default:
             return state
     }
