@@ -23,7 +23,6 @@ class Header extends Component {
     render() {
         return (
             <div>
-                Header
                 <div >
                     <p style={styles} onClick={this.headerClick('category')}>menus</p>
                     <p style={styles} onClick={this.headerClick('cart')}>cart</p>

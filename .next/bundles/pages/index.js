@@ -426,11 +426,13 @@ var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/
 
 
 
-var detailClick = function detailClick() {
-    return __WEBPACK_IMPORTED_MODULE_1_next_router___default.a.push({
-        pathname: '/ItemDetail',
-        query: { name: 'Zeit' }
-    });
+var detailClick = function detailClick(id) {
+    return function () {
+        return __WEBPACK_IMPORTED_MODULE_1_next_router___default.a.push({
+            pathname: '/ItemDetail',
+            query: { id: id }
+        });
+    };
 };
 
 var ContentItem = function ContentItem(props) {
@@ -441,7 +443,7 @@ var ContentItem = function ContentItem(props) {
     var menuClick = props.menuClick;
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { style: { display: 'inline', padding: 20 }, __source: {
+        { style: { display: 'inline' }, __source: {
                 fileName: _jsxFileName,
                 lineNumber: 14
             }
@@ -449,7 +451,7 @@ var ContentItem = function ContentItem(props) {
         name,
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'button',
-            { onClick: detailClick, __source: {
+            { onClick: detailClick(id), __source: {
                     fileName: _jsxFileName,
                     lineNumber: 16
                 }
@@ -563,20 +565,19 @@ var Header = function (_Component) {
                         lineNumber: 25
                     }
                 },
-                'Header',
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 27
+                            lineNumber: 26
                         }
                     },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'p',
                         { style: styles, onClick: this.headerClick('category'), __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 28
+                                lineNumber: 27
                             }
                         },
                         'menus'
@@ -585,7 +586,7 @@ var Header = function (_Component) {
                         'p',
                         { style: styles, onClick: this.headerClick('cart'), __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 29
+                                lineNumber: 28
                             }
                         },
                         'cart'

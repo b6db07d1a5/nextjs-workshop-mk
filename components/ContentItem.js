@@ -1,19 +1,19 @@
 import React from 'react';
 import Router from 'next/router'
 
-const detailClick = () =>
+const detailClick = (id) => () =>
     Router.push({
         pathname: '/ItemDetail',
-        query: { name: 'Zeit' }
+        query: { id: id }
 })
 
 const ContentItem = (props) => {
     const {id, name} = props.item
     const menuClick = props.menuClick
     return (
-        <div style={{display: 'inline', padding: 20}}>
+        <div style={{display: 'inline'}}>
             {name}
-            <button onClick={detailClick}>
+            <button onClick={detailClick(id)}>
                 detail
             </button>
             <button onClick={menuClick(id)}>
