@@ -361,8 +361,18 @@ var Content = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_next_router__ = __webpack_require__("next/router");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_next_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_next_router__);
 var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/ContentItem.js';
 
+
+
+var detailClick = function detailClick() {
+    return __WEBPACK_IMPORTED_MODULE_1_next_router___default.a.push({
+        pathname: '/ItemDetail',
+        query: { name: 'Zeit' }
+    });
+};
 
 var ContentItem = function ContentItem(props) {
     var _props$item = props.item,
@@ -374,16 +384,15 @@ var ContentItem = function ContentItem(props) {
         'div',
         { style: { display: 'inline', padding: 20 }, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 7
+                lineNumber: 14
             }
         },
         name,
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'button',
-            {
-                __source: {
+            { onClick: detailClick, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 9
+                    lineNumber: 16
                 }
             },
             'detail'
@@ -392,7 +401,7 @@ var ContentItem = function ContentItem(props) {
             'button',
             { onClick: menuClick(id), __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 12
+                    lineNumber: 19
                 }
             },
             'buy'
@@ -681,6 +690,13 @@ var store = Object(__WEBPACK_IMPORTED_MODULE_1_redux__["createStore"])(indexRedu
 
 module.exports = __webpack_require__("./pages/index.js");
 
+
+/***/ }),
+
+/***/ "next/router":
+/***/ (function(module, exports) {
+
+module.exports = require("next/router");
 
 /***/ }),
 
