@@ -285,10 +285,9 @@ var Content = function (_Component) {
             menus: Array(),
             contentDisplay: _this.props.content.contentDisplay
         }, _this.retrieveMenus = function () {
-            var categoryId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            var categoryId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            var queryString = categoryId > 0 ? 'categoryId=' + categoryId : '';
-            fetch('http://localhost:3001/menus?' + queryString).then(function (resp) {
+            fetch('http://localhost:3001/menus?categoryId=' + categoryId).then(function (resp) {
                 return resp.json();
             }).then(function (data) {
                 _this.setState(_extends({}, _this.state, {
@@ -315,9 +314,22 @@ var Content = function (_Component) {
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            this.setState(_extends({}, this.state, {
-                contentDisplay: nextProps.content.contentDisplay
-            }));
+            var contentDisplay = nextProps.content.contentDisplay;
+            var items = nextProps.cart.items;
+            var id = nextProps.category.id;
+
+            console.log(nextProps);
+            if (contentDisplay === 'menus') {
+                this.retrieveMenus(id);
+                this.setState(_extends({}, this.state, {
+                    contentDisplay: contentDisplay
+                }));
+            } else {
+                this.setState(_extends({}, this.state, {
+                    menus: items,
+                    contentDisplay: contentDisplay
+                }));
+            }
         }
     }, {
         key: 'render',
@@ -328,11 +340,11 @@ var Content = function (_Component) {
 
             var content = contentDisplay === 'menus' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContentMenus__["a" /* default */], { menus: menus, onClickAddTocart: this.onClickAddTocart, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 45
+                    lineNumber: 58
                 }
             }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentCart__["a" /* default */], { menus: menus, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 46
+                    lineNumber: 59
                 }
             });
             return content;
@@ -695,8 +707,7 @@ var Sidebar = function (_Component) {
             return function () {
                 _this.props.dispatch({
                     type: 'CATEGORY_CLICK',
-                    categoryId: categoryId,
-                    contentDisplay: 'category'
+                    categoryId: categoryId
                 });
             };
         }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -718,7 +729,7 @@ var Sidebar = function (_Component) {
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CategoriesList__["a" /* default */], { categoryClick: this.categoryClick, categories: this.state.categories, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 27
+                    lineNumber: 26
                 }
             });
         }

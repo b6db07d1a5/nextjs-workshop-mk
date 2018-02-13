@@ -8,7 +8,7 @@ class Header extends Component {
         switch(headerValue) {
             case 'menus' : 
                 return {
-                    type: 'MENUS_CLICK', 
+                    type: 'MENUS_CLICK',
                     contentDisplay: headerValue}
             case 'cart' :
                 return {

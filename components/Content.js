@@ -14,15 +14,28 @@ class Content extends Component {
         this.retrieveMenus()
     }
     componentWillReceiveProps(nextProps){
-        this.setState({
-            ...this.state,
-            contentDisplay : nextProps.content.contentDisplay
-        })
+        const { contentDisplay } = nextProps.content
+        const { items } = nextProps.cart
+        const { id } = nextProps.category
+        console.log(nextProps)
+        if(contentDisplay === 'menus') {
+            this.retrieveMenus(id)
+            this.setState({
+                ...this.state,
+                contentDisplay : contentDisplay
+            })
+        }
+        else {
+            this.setState({
+                ...this.state,
+                menus: items,
+                contentDisplay : contentDisplay
+            })
+        }
     }
 
-    retrieveMenus = (categoryId = 0) => {
-        const queryString = categoryId > 0 ? `categoryId=${categoryId}` : ``
-        fetch(`http://localhost:3001/menus?${queryString}`)
+    retrieveMenus = (categoryId = 1) => {
+        fetch(`http://localhost:3001/menus?categoryId=${categoryId}`)
         .then((resp) => resp.json()) 
         .then((data) => {
             this.setState({
