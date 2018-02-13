@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 class ItemDetail extends Component {
+    
     render() {
+        const {name, price} = this.props.item
         return (
             <div>
-                {this.props.name} <br />
-                {this.props.price}
+                name {name} <br />
+                price {price}
             </div>
         );
     }
