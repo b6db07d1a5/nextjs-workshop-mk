@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router'
 
-const detailClick = (id) => () =>
+const onClickDetail = (id) => () =>
     Router.push({
         pathname: '/ItemDetail',
         query: { id: id }
@@ -9,14 +9,14 @@ const detailClick = (id) => () =>
 
 const ContentItem = (props) => {
     const {id, name} = props.item
-    const menuClick = props.menuClick
+    const onClickAddTocart = props.onClickAddTocart
     return (
         <div style={{display: 'inline'}}>
             {name}
-            <button onClick={detailClick(id)}>
+            <button onClick={onClickDetail(id)}>
                 detail
             </button>
-            <button onClick={menuClick(id)}>
+            <button onClick={onClickAddTocart(id)}>
                 buy
             </button>
         </div>

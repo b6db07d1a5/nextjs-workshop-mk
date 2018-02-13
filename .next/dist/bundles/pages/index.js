@@ -248,8 +248,11 @@ var CategoryItem = function CategoryItem(_ref) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__("react-redux");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_redux__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentItem__ = __webpack_require__("./components/ContentItem.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContentCart__ = __webpack_require__("./components/ContentCart.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContentMenus__ = __webpack_require__("./components/ContentMenus.js");
 var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/Content.js';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -258,6 +261,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -278,7 +282,8 @@ var Content = function (_Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Content.__proto__ || Object.getPrototypeOf(Content)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            menus: Array()
+            menus: Array(),
+            contentDisplay: _this.props.content.contentDisplay
         }, _this.retrieveMenus = function () {
             var categoryId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -286,9 +291,11 @@ var Content = function (_Component) {
             fetch('http://localhost:3001/menus?' + queryString).then(function (resp) {
                 return resp.json();
             }).then(function (data) {
-                _this.setState({ menus: data });
+                _this.setState(_extends({}, _this.state, {
+                    menus: data
+                }));
             });
-        }, _this.menuClick = function (menuId) {
+        }, _this.onClickAddTocart = function (menuId) {
             return function () {
                 _this.props.dispatch({
                     type: 'ADD_MENU',
@@ -308,39 +315,27 @@ var Content = function (_Component) {
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            var contentDisplay = nextProps.category.contentDisplay;
-
-            if (contentDisplay === 'category') {
-                this.retrieveMenus(nextProps.category.id);
-            } else {
-                var items = nextProps.menu.items;
-
-                this.setState({ menus: items });
-            }
+            this.setState(_extends({}, this.state, {
+                contentDisplay: nextProps.content.contentDisplay
+            }));
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _state = this.state,
+                menus = _state.menus,
+                contentDisplay = _state.contentDisplay;
 
-            var menus = this.state.menus;
-
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                {
-                    __source: {
-                        fileName: _jsxFileName,
-                        lineNumber: 44
-                    }
-                },
-                menus.map(function (menu, i) {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentItem__["a" /* default */], { key: 'menu ' + i, menuClick: _this2.menuClick, item: menu, __source: {
-                            fileName: _jsxFileName,
-                            lineNumber: 45
-                        }
-                    });
-                })
-            );
+            var content = contentDisplay === 'menus' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContentMenus__["a" /* default */], { menus: menus, onClickAddTocart: this.onClickAddTocart, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 45
+                }
+            }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentCart__["a" /* default */], { menus: menus, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 46
+                }
+            });
+            return content;
         }
     }]);
 
@@ -349,9 +344,82 @@ var Content = function (_Component) {
 
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["connect"])(function (state) {
     return {
+        content: state.content,
         category: state.category,
-        menu: state.menu };
+        cart: state.cart };
 })(Content));
+
+/***/ }),
+
+/***/ "./components/ContentCart.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/ContentCart.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var ContentCart = function (_Component) {
+    _inherits(ContentCart, _Component);
+
+    function ContentCart() {
+        _classCallCheck(this, ContentCart);
+
+        return _possibleConstructorReturn(this, (ContentCart.__proto__ || Object.getPrototypeOf(ContentCart)).apply(this, arguments));
+    }
+
+    _createClass(ContentCart, [{
+        key: 'render',
+        value: function render() {
+            var menus = this.props.menus;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 7
+                    }
+                },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'ul',
+                    {
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 8
+                        }
+                    },
+                    menus.map(function (menu, i) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'li',
+                            { key: 'menu cart ' + i, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 9
+                                }
+                            },
+                            menu.name,
+                            ' '
+                        );
+                    })
+                )
+            );
+        }
+    }]);
+
+    return ContentCart;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ContentCart);
 
 /***/ }),
 
@@ -367,7 +435,7 @@ var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/
 
 
 
-var detailClick = function detailClick(id) {
+var onClickDetail = function onClickDetail(id) {
     return function () {
         return __WEBPACK_IMPORTED_MODULE_1_next_router___default.a.push({
             pathname: '/ItemDetail',
@@ -381,7 +449,7 @@ var ContentItem = function ContentItem(props) {
         id = _props$item.id,
         name = _props$item.name;
 
-    var menuClick = props.menuClick;
+    var onClickAddTocart = props.onClickAddTocart;
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { style: { display: 'inline' }, __source: {
@@ -392,7 +460,7 @@ var ContentItem = function ContentItem(props) {
         name,
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'button',
-            { onClick: detailClick(id), __source: {
+            { onClick: onClickDetail(id), __source: {
                     fileName: _jsxFileName,
                     lineNumber: 16
                 }
@@ -401,7 +469,7 @@ var ContentItem = function ContentItem(props) {
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'button',
-            { onClick: menuClick(id), __source: {
+            { onClick: onClickAddTocart(id), __source: {
                     fileName: _jsxFileName,
                     lineNumber: 19
                 }
@@ -412,6 +480,68 @@ var ContentItem = function ContentItem(props) {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (ContentItem);
+
+/***/ }),
+
+/***/ "./components/ContentMenus.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ContentItem__ = __webpack_require__("./components/ContentItem.js");
+var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/ContentMenus.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var ContentMenus = function (_Component) {
+    _inherits(ContentMenus, _Component);
+
+    function ContentMenus() {
+        _classCallCheck(this, ContentMenus);
+
+        return _possibleConstructorReturn(this, (ContentMenus.__proto__ || Object.getPrototypeOf(ContentMenus)).apply(this, arguments));
+    }
+
+    _createClass(ContentMenus, [{
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                menus = _props.menus,
+                onClickAddTocart = _props.onClickAddTocart;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 8
+                    }
+                },
+                menus.map(function (menu, i) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__ContentItem__["a" /* default */], { key: 'menu ' + i, onClickAddTocart: onClickAddTocart, item: menu, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 9
+                        }
+                    });
+                })
+            );
+        }
+    }]);
+
+    return ContentMenus;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ContentMenus);
 
 /***/ }),
 
@@ -454,13 +584,13 @@ var Header = function (_Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Header.__proto__ || Object.getPrototypeOf(Header)).call.apply(_ref, [this].concat(args))), _this), _this.headerAction = function (headerValue) {
             switch (headerValue) {
+                case 'menus':
+                    return {
+                        type: 'MENUS_CLICK',
+                        contentDisplay: headerValue };
                 case 'cart':
                     return {
                         type: 'CART_CLICK',
-                        contentDisplay: headerValue };
-                case 'category':
-                    return {
-                        type: 'CATEGORY_CLICK',
                         contentDisplay: headerValue };
             }
         }, _this.headerClick = function (headerValue) {
@@ -491,7 +621,7 @@ var Header = function (_Component) {
                     },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'p',
-                        { style: styles, onClick: this.headerClick('category'), __source: {
+                        { style: styles, onClick: this.headerClick('menus'), __source: {
                                 fileName: _jsxFileName,
                                 lineNumber: 27
                             }
@@ -517,7 +647,7 @@ var Header = function (_Component) {
 
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["connect"])(function (state) {
     return {
-        category: state.category };
+        content: state.content };
 })(Header));
 
 /***/ }),
@@ -633,7 +763,19 @@ function categoryReducer() {
     switch (action.type) {
         case 'CATEGORY_CLICK':
             return _extends({}, state, {
-                id: action.categoryId,
+                id: action.categoryId });
+        default:
+            return state;
+    }
+}
+
+function contentReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { contentDisplay: 'menus' };
+    var action = arguments[1];
+
+    switch (action.type) {
+        case 'MENUS_CLICK':
+            return _extends({}, state, {
                 contentDisplay: action.contentDisplay });
         case 'CART_CLICK':
             return _extends({}, state, {
@@ -643,13 +785,12 @@ function categoryReducer() {
     }
 }
 
-function menuReducer() {
+function cartReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { items: Array() };
     var action = arguments[1];
 
     switch (action.type) {
         case 'ADD_MENU':
-            console.log(state);
             var add = state.items;
             add.push(action.menuItem);
             return _extends({}, state, { items: add });
@@ -661,8 +802,9 @@ function menuReducer() {
 }
 
 var indexReducer = Object(__WEBPACK_IMPORTED_MODULE_1_redux__["combineReducers"])({
+    content: contentReducer,
     category: categoryReducer,
-    menu: menuReducer
+    cart: cartReducer
 });
 
 var store = Object(__WEBPACK_IMPORTED_MODULE_1_redux__["createStore"])(indexReducer);
@@ -672,13 +814,13 @@ var store = Object(__WEBPACK_IMPORTED_MODULE_1_redux__["createStore"])(indexRedu
         __WEBPACK_IMPORTED_MODULE_2_react_redux__["Provider"],
         { store: store, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 44
+                lineNumber: 53
             }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */], {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 45
+                lineNumber: 54
             }
         })
     );

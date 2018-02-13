@@ -8,7 +8,16 @@ function categoryReducer(state = {}, action) {
     switch(action.type){
         case 'CATEGORY_CLICK':
             return {...state, 
-                id: action.categoryId,
+                id: action.categoryId}
+        default:
+            return state
+    }
+}
+
+function contentReducer(state = {contentDisplay: 'menus'}, action) {
+    switch(action.type){
+        case 'MENUS_CLICK':
+            return {...state,
                 contentDisplay: action.contentDisplay}
         case 'CART_CLICK':
             return {...state, 
@@ -18,10 +27,9 @@ function categoryReducer(state = {}, action) {
     }
 }
 
-function menuReducer(state = {items: Array()}, action) {
+function cartReducer(state = {items: Array()}, action) {
     switch(action.type){
         case 'ADD_MENU':
-            console.log(state)
             let add = state.items
             add.push(action.menuItem)
             return {...state, items: add}
@@ -33,8 +41,9 @@ function menuReducer(state = {items: Array()}, action) {
 }
 
 const indexReducer = combineReducers({
+    content: contentReducer,
     category: categoryReducer,
-    menu: menuReducer
+    cart: cartReducer
 })
 
 const store = createStore(indexReducer)

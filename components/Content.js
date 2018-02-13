@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import ContentItem from './ContentItem';
+import ContentCart from './ContentCart'
+import ContentMenus from './ContentMenus'
 
 class Content extends Component {
-
+    
     state = {
-        menus : Array()
+        menus : Array(),
+        contentDisplay: this.props.content.contentDisplay
     }
 
     componentDidMount() {
         this.retrieveMenus()
     }
     componentWillReceiveProps(nextProps){
-        const { contentDisplay } = nextProps.category
-        if(contentDisplay === 'category') {
-            this.retrieveMenus(nextProps.category.id)
-        }
-        else {
-            const { items } = nextProps.menu
-            this.setState({menus: items})
-        }
+        this.setState({
+            ...this.state,
+            contentDisplay : nextProps.content.contentDisplay
+        })
     }
 
     retrieveMenus = (categoryId = 0) => {
@@ -27,11 +25,14 @@ class Content extends Component {
         fetch(`http://localhost:3001/menus?${queryString}`)
         .then((resp) => resp.json()) 
         .then((data) => {
-            this.setState({menus: data})
+            this.setState({
+                ...this.state,
+                menus: data
+            })
         })
     }
 
-    menuClick = (menuId) => () => {
+    onClickAddTocart = (menuId) => () => {
         this.props.dispatch({
             type:'ADD_MENU', 
             menuItem: this.state.menus.find((menu)=> menu.id === menuId)
@@ -39,14 +40,18 @@ class Content extends Component {
     }
 
     render() {
-        const { menus } = this.state
+        const { menus, contentDisplay } = this.state
+        const content = (contentDisplay === 'menus'?
+                        <ContentMenus menus={menus} onClickAddTocart={this.onClickAddTocart} /> :
+                        <ContentCart menus={menus} /> )
         return (
-            <div>
-                {menus.map((menu, i) => <ContentItem key={`menu ${i}`} menuClick={this.menuClick} item={menu} />)}
-            </div>
+            content
         );
     }
 }
+
 export default connect(state => ({
+    content: state.content,
     category: state.category,
-    menu: state.menu}))(Content)
+    cart: state.cart})
+)(Content)

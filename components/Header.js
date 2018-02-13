@@ -6,13 +6,13 @@ const styles= {display:'inline-block', paddingRight: 20}
 class Header extends Component {
     headerAction = (headerValue) => {
         switch(headerValue) {
-            case 'cart' : 
+            case 'menus' : 
+                return {
+                    type: 'MENUS_CLICK', 
+                    contentDisplay: headerValue}
+            case 'cart' :
                 return {
                     type: 'CART_CLICK', 
-                    contentDisplay: headerValue}
-            case 'category' :
-                return {
-                    type: 'CATEGORY_CLICK', 
                     contentDisplay: headerValue}
         }
     }
@@ -24,7 +24,7 @@ class Header extends Component {
         return (
             <div>
                 <div >
-                    <p style={styles} onClick={this.headerClick('category')}>menus</p>
+                    <p style={styles} onClick={this.headerClick('menus')}>menus</p>
                     <p style={styles} onClick={this.headerClick('cart')}>cart</p>
                 </div>
                 
@@ -34,4 +34,5 @@ class Header extends Component {
 }
 
 export default connect(state => ({
-    category: state.category}))(Header)
+    content: state.content})
+)(Header)
