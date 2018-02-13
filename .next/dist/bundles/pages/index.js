@@ -539,7 +539,7 @@ var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/
 var onClickDetail = function onClickDetail(id) {
     return function () {
         return __WEBPACK_IMPORTED_MODULE_1_next_router___default.a.push({
-            pathname: '/ItemDetail',
+            pathname: '/Item',
             query: { id: id }
         });
     };

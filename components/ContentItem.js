@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 const onClickDetail = (id) => () =>
     Router.push({
-        pathname: '/ItemDetail',
+        pathname: '/Item',
         query: { id: id }
 })
 
