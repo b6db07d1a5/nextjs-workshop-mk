@@ -330,6 +330,13 @@ var Content = function (_Component) {
                     })
                 });
             };
+        }, _this.onClickDecreaseFromCart = function (menuId) {
+            return function () {
+                _this.props.dispatch({
+                    type: 'DECREASE_MENU',
+                    menuId: menuId
+                });
+            };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -342,16 +349,17 @@ var Content = function (_Component) {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             var contentDisplay = nextProps.content.contentDisplay;
-            var items = nextProps.cart.items;
-            var id = nextProps.category.id;
 
-            console.log(nextProps);
             if (contentDisplay === 'menus') {
+                var id = nextProps.category.id;
+
                 this.retrieveMenus(id);
                 this.setState(_extends({}, this.state, {
                     contentDisplay: contentDisplay
                 }));
             } else {
+                var items = nextProps.cart.items;
+
                 this.setState(_extends({}, this.state, {
                     menus: items,
                     contentDisplay: contentDisplay
@@ -367,11 +375,11 @@ var Content = function (_Component) {
 
             var content = contentDisplay === 'menus' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContentMenus__["a" /* default */], { menus: menus, onClickAddTocart: this.onClickAddTocart, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 58
+                    lineNumber: 64
                 }
-            }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentCart__["a" /* default */], { menus: menus, __source: {
+            }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentCart__["a" /* default */], { menus: menus, onClickDecreaseFromCart: this.onClickDecreaseFromCart, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 59
+                    lineNumber: 65
                 }
             });
             return content;
@@ -423,6 +431,8 @@ var _default = Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect *
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 var _jsxFileName = '/Users/sitthichaiw/Dev/github/nextjs-workshop-mk/components/ContentCart.js';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 (function () {
@@ -443,45 +453,105 @@ var ContentCart = function (_Component) {
     _inherits(ContentCart, _Component);
 
     function ContentCart() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, ContentCart);
 
-        return _possibleConstructorReturn(this, (ContentCart.__proto__ || Object.getPrototypeOf(ContentCart)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContentCart.__proto__ || Object.getPrototypeOf(ContentCart)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            sum: 0,
+            menus: Array()
+        }, _this.sum = function (arr) {
+            var sum = 0;
+            arr.forEach(function (el) {
+                sum += el.price * el.qty;
+            });
+            return sum;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ContentCart, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var menus = this.props.menus;
+
+            var sum = this.sum(menus);
+            this.setState(_extends({}, this.state, {
+                menus: menus,
+                sum: sum
+            }));
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            var menus = nextProps.menus;
+
+            var sum = this.sum(menus);
+            this.setState(_extends({}, this.state, {
+                menus: menus,
+                sum: sum
+            }));
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var menus = this.props.menus;
+            var _this2 = this;
+
+            var _state = this.state,
+                menus = _state.menus,
+                sum = _state.sum;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 7
+                        lineNumber: 39
                     }
                 },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'ul',
+                    'div',
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 8
+                            lineNumber: 40
                         }
                     },
                     menus.map(function (menu, i) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'li',
+                            'div',
                             { key: 'menu cart ' + i, __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 9
+                                    lineNumber: 42
                                 }
                             },
                             menu.name,
-                            ' '
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'button',
+                                { onClick: _this2.props.onClickDecreaseFromCart(menu.id), __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 44
+                                    }
+                                },
+                                ' - '
+                            ),
+                            menu.qty
                         );
                     })
-                )
+                ),
+                '=-=-=-=-=-=-=-=-=-=-=-= ',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', {
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 48
+                    }
+                }),
+                sum
             );
         }
     }, {
@@ -888,6 +958,9 @@ var Sidebar = function (_Component) {
                     type: 'CATEGORY_CLICK',
                     categoryId: categoryId
                 });
+                _this.props.dispatch({
+                    type: 'CART_CLICK',
+                    contentDisplay: 'menus' });
             };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -908,7 +981,7 @@ var Sidebar = function (_Component) {
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__CategoriesList__["a" /* default */], { categoryClick: this.categoryClick, categories: this.state.categories, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 26
+                    lineNumber: 29
                 }
             });
         }
@@ -924,7 +997,8 @@ var Sidebar = function (_Component) {
 
 var _default = Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(function (state) {
     return {
-        category: state.category };
+        category: state.category,
+        content: state.content };
 })(Sidebar);
 
 /* harmony default export */ __webpack_exports__["a"] = (_default);
@@ -12584,11 +12658,41 @@ function cartReducer() {
 
     switch (action.type) {
         case 'ADD_MENU':
-            var add = state.items;
-            add.push(action.menuItem);
-            return _extends({}, state, { items: add });
-        case 'REMOVE_MENU':
-            return state;
+            var currItems = state.items;
+
+            var currQty = state.items.find(function (item) {
+                return item.id = action.menuItem.id;
+            });
+
+            if (currQty) {
+
+                var newItems = currItems.map(function (item) {
+                    if (item.id === action.menuItem.id) {
+                        return _extends({}, item, { qty: item.qty + 1 });
+                    }
+                    return item;
+                });
+                return _extends({}, state, { items: newItems });
+            } else {
+                var itemToAdd = _extends({}, action.menuItem, {
+                    qty: 1
+                });
+                currItems.push(itemToAdd);
+
+                console.log(currItems);
+
+                return _extends({}, state, { items: currItems });
+            }
+
+        case 'DECREASE_MENU':
+            var currDecreaseitems = state.items;
+            var newDecreaseItems = currDecreaseitems.map(function (item) {
+                if (item.id === action.menuId) {
+                    return _extends({}, item, { qty: item.qty - 1 });
+                }
+                return item;
+            });
+            return _extends({}, state, { items: newDecreaseItems });
         default:
             return state;
     }
@@ -12607,13 +12711,13 @@ var _default = function _default() {
         __WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
         { store: store, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 53
+                lineNumber: 83
             }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */], {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 54
+                lineNumber: 84
             }
         })
     );

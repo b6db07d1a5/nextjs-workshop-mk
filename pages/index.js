@@ -30,11 +30,41 @@ function contentReducer(state = {contentDisplay: 'menus'}, action) {
 function cartReducer(state = {items: Array()}, action) {
     switch(action.type){
         case 'ADD_MENU':
-            let add = state.items
-            add.push(action.menuItem)
-            return {...state, items: add}
-        case 'REMOVE_MENU':
-            return state
+            let currItems = state.items
+            
+            let currQty = state.items.find((item)=> item.id = action.menuItem.id)
+            
+            if(currQty){
+
+                let newItems = currItems.map(item => {
+                    if(item.id === action.menuItem.id) {
+                       return {...item, qty: item.qty + 1}
+                    }
+                    return item
+                });
+                return {...state, items: newItems}
+            }
+            else {
+                let itemToAdd = {
+                    ...action.menuItem,
+                    qty: 1
+                }
+                currItems.push(itemToAdd)
+
+                console.log(currItems)
+
+                return {...state, items: currItems}
+            }
+
+        case 'DECREASE_MENU':
+            let currDecreaseitems = state.items
+            let newDecreaseItems = currDecreaseitems.map(item => {
+                if(item.id === action.menuId) {
+                    return {...item, qty: item.qty - 1}
+                }
+                return item
+            });
+            return {...state, items: newDecreaseItems}
         default:
             return state
     }

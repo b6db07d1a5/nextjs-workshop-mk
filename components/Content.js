@@ -15,10 +15,8 @@ class Content extends Component {
     }
     componentWillReceiveProps(nextProps){
         const { contentDisplay } = nextProps.content
-        const { items } = nextProps.cart
-        const { id } = nextProps.category
-        console.log(nextProps)
         if(contentDisplay === 'menus') {
+            const { id } = nextProps.category
             this.retrieveMenus(id)
             this.setState({
                 ...this.state,
@@ -26,6 +24,7 @@ class Content extends Component {
             })
         }
         else {
+            const { items } = nextProps.cart
             this.setState({
                 ...this.state,
                 menus: items,
@@ -52,11 +51,18 @@ class Content extends Component {
         })
     }
 
+    onClickDecreaseFromCart = (menuId) => () => {
+        this.props.dispatch({
+            type: 'DECREASE_MENU',
+            menuId: menuId
+        })
+    }
+
     render() {
         const { menus, contentDisplay } = this.state
         const content = (contentDisplay === 'menus'?
                         <ContentMenus menus={menus} onClickAddTocart={this.onClickAddTocart} /> :
-                        <ContentCart menus={menus} /> )
+                        <ContentCart menus={menus} onClickDecreaseFromCart={this.onClickDecreaseFromCart} /> )
         return (
             content
         );
