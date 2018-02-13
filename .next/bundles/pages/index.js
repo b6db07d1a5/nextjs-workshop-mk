@@ -12660,20 +12660,11 @@ function cartReducer() {
         case 'ADD_MENU':
             var currItems = state.items;
 
-            var currQty = state.items.find(function (item) {
-                return item.id = action.menuItem.id;
+            var checkItem = currItems.findIndex(function (item) {
+                return item.id == action.menuItem.id;
             });
 
-            if (currQty) {
-
-                var newItems = currItems.map(function (item) {
-                    if (item.id === action.menuItem.id) {
-                        return _extends({}, item, { qty: item.qty + 1 });
-                    }
-                    return item;
-                });
-                return _extends({}, state, { items: newItems });
-            } else {
+            if (checkItem === -1) {
                 var itemToAdd = _extends({}, action.menuItem, {
                     qty: 1
                 });
@@ -12682,16 +12673,30 @@ function cartReducer() {
                 console.log(currItems);
 
                 return _extends({}, state, { items: currItems });
+            } else {
+                var newItems = currItems.map(function (item) {
+                    if (item.id === action.menuItem.id) {
+                        return _extends({}, item, { qty: item.qty + 1 });
+                    }
+                    return item;
+                });
+
+                console.log(newItems);
+                return _extends({}, state, { items: newItems });
             }
 
         case 'DECREASE_MENU':
             var currDecreaseitems = state.items;
-            var newDecreaseItems = currDecreaseitems.map(function (item) {
+            var decreaseItems = currDecreaseitems.map(function (item) {
                 if (item.id === action.menuId) {
                     return _extends({}, item, { qty: item.qty - 1 });
                 }
                 return item;
             });
+            var newDecreaseItems = decreaseItems.filter(function (item) {
+                return item.qty > 0;
+            });
+
             return _extends({}, state, { items: newDecreaseItems });
         default:
             return state;
@@ -12711,13 +12716,13 @@ var _default = function _default() {
         __WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
         { store: store, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 83
+                lineNumber: 86
             }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */], {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 84
+                lineNumber: 87
             }
         })
     );

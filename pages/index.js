@@ -32,19 +32,9 @@ function cartReducer(state = {items: Array()}, action) {
         case 'ADD_MENU':
             let currItems = state.items
             
-            let currQty = state.items.find((item)=> item.id = action.menuItem.id)
-            
-            if(currQty){
+            let checkItem = currItems.findIndex((item) => item.id == action.menuItem.id)
 
-                let newItems = currItems.map(item => {
-                    if(item.id === action.menuItem.id) {
-                       return {...item, qty: item.qty + 1}
-                    }
-                    return item
-                });
-                return {...state, items: newItems}
-            }
-            else {
+            if(checkItem === -1){
                 let itemToAdd = {
                     ...action.menuItem,
                     qty: 1
@@ -55,15 +45,28 @@ function cartReducer(state = {items: Array()}, action) {
 
                 return {...state, items: currItems}
             }
+            else {
+                let newItems = currItems.map(item => {
+                    if(item.id === action.menuItem.id) {
+                       return {...item, qty: item.qty + 1}
+                    }
+                    return item
+                });
+
+                console.log(newItems)
+                return {...state, items: newItems}
+            }
 
         case 'DECREASE_MENU':
             let currDecreaseitems = state.items
-            let newDecreaseItems = currDecreaseitems.map(item => {
+            let decreaseItems = currDecreaseitems.map(item => {
                 if(item.id === action.menuId) {
                     return {...item, qty: item.qty - 1}
                 }
                 return item
             });
+            let newDecreaseItems = decreaseItems.filter((item) => item.qty > 0)
+            
             return {...state, items: newDecreaseItems}
         default:
             return state
