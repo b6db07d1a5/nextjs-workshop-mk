@@ -66,8 +66,18 @@ function cartReducer(state = {items: Array()}, action) {
                 return item
             });
             let newDecreaseItems = decreaseItems.filter((item) => item.qty > 0)
-            
+
             return {...state, items: newDecreaseItems}
+        case 'INCREASE_MENU':
+            let currIncreaseitems = state.items
+            let increaseItems = currIncreaseitems.map(item => {
+                if(item.id === action.menuId) {
+                    return {...item, qty: item.qty + 1}
+                }
+                return item
+            });
+
+            return {...state, items: increaseItems}
         default:
             return state
     }

@@ -43,6 +43,7 @@ class ContentCart extends Component {
                         {menu.name} 
                         <button onClick={this.props.onClickDecreaseFromCart(menu.id)}> - </button>
                         {menu.qty}
+                        <button onClick={this.props.onClickIncreaseFromCart(menu.id)}> + </button>
                         </div>)}
                 </div>
                 =-=-=-=-=-=-=-=-=-=-=-= <br />

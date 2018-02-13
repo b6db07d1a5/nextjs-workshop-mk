@@ -337,6 +337,13 @@ var Content = function (_Component) {
                     menuId: menuId
                 });
             };
+        }, _this.onClickIncreaseFromCart = function (menuId) {
+            return function () {
+                _this.props.dispatch({
+                    type: 'INCREASE_MENU',
+                    menuId: menuId
+                });
+            };
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -375,11 +382,14 @@ var Content = function (_Component) {
 
             var content = contentDisplay === 'menus' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ContentMenus__["a" /* default */], { menus: menus, onClickAddTocart: this.onClickAddTocart, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 64
+                    lineNumber: 70
                 }
-            }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentCart__["a" /* default */], { menus: menus, onClickDecreaseFromCart: this.onClickDecreaseFromCart, __source: {
+            }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ContentCart__["a" /* default */], { menus: menus,
+                onClickDecreaseFromCart: this.onClickDecreaseFromCart,
+                onClickIncreaseFromCart: this.onClickIncreaseFromCart,
+                __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 65
+                    lineNumber: 71
                 }
             });
             return content;
@@ -540,7 +550,16 @@ var ContentCart = function (_Component) {
                                 },
                                 ' - '
                             ),
-                            menu.qty
+                            menu.qty,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'button',
+                                { onClick: _this2.props.onClickIncreaseFromCart(menu.id), __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 46
+                                    }
+                                },
+                                ' + '
+                            )
                         );
                     })
                 ),
@@ -548,7 +567,7 @@ var ContentCart = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', {
                     __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 48
+                        lineNumber: 49
                     }
                 }),
                 sum
@@ -12698,6 +12717,16 @@ function cartReducer() {
             });
 
             return _extends({}, state, { items: newDecreaseItems });
+        case 'INCREASE_MENU':
+            var currIncreaseitems = state.items;
+            var increaseItems = currIncreaseitems.map(function (item) {
+                if (item.id === action.menuId) {
+                    return _extends({}, item, { qty: item.qty + 1 });
+                }
+                return item;
+            });
+
+            return _extends({}, state, { items: increaseItems });
         default:
             return state;
     }
@@ -12716,13 +12745,13 @@ var _default = function _default() {
         __WEBPACK_IMPORTED_MODULE_2_react_redux__["a" /* Provider */],
         { store: store, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 86
+                lineNumber: 96
             }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_App__["a" /* default */], {
             __source: {
                 fileName: _jsxFileName,
-                lineNumber: 87
+                lineNumber: 97
             }
         })
     );

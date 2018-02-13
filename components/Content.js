@@ -57,12 +57,21 @@ class Content extends Component {
             menuId: menuId
         })
     }
+    onClickIncreaseFromCart = (menuId) => () => {
+        this.props.dispatch({
+            type: 'INCREASE_MENU',
+            menuId: menuId
+        })
+    }
 
     render() {
         const { menus, contentDisplay } = this.state
         const content = (contentDisplay === 'menus'?
                         <ContentMenus menus={menus} onClickAddTocart={this.onClickAddTocart} /> :
-                        <ContentCart menus={menus} onClickDecreaseFromCart={this.onClickDecreaseFromCart} /> )
+                        <ContentCart menus={menus} 
+                            onClickDecreaseFromCart={this.onClickDecreaseFromCart}
+                            onClickIncreaseFromCart={this.onClickIncreaseFromCart}
+                             /> )
         return (
             content
         );
