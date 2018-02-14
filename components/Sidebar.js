@@ -34,7 +34,7 @@ class Sidebar extends Component {
 }
 
 const styles = {
-    backgroundColor:'#ddd', 
+    backgroundColor:'#213047', 
     height: '100vh'
 }
 

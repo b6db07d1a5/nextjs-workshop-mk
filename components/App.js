@@ -7,7 +7,7 @@ class App extends Component {
     
     render() {
         return (
-            <div>
+            <div style={{margin: -10}}>
                 <Header />
                 <div style={{display: 'flex'}} >
                     <Sidebar />

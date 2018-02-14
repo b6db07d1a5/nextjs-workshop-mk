@@ -9,18 +9,24 @@ const onClickDetail = (id) => () =>
 })
 
 const ContentItem = (props) => {
-    const {id, name, images} = props.item
+    const {id, name, price, images} = props.item
     const onClickAddTocart = props.onClickAddTocart
     return (
         <div style={styles}>
             <img src={`static/images/menus/${images}`} style={{width: 200, height:200}} />
-            {name}
-            <button onClick={onClickDetail(id)}>
-                detail
-            </button>
-            <button onClick={onClickAddTocart(id)}>
-                buy
-            </button>
+            <span>{name}</span>
+            <span> Price : {price} ฿.</span>
+            <div>
+                <button onClick={onClickDetail(id)} style={styles.button}>
+                    Detail
+                </button>
+                <span> </span>
+                <button onClick={onClickAddTocart(id)} style={styles.button}>
+                    Order
+                </button>
+            </div>
+            
+            
         </div>
     );
 };
@@ -31,7 +37,14 @@ const styles={
     height:300, 
     display: 'flex', 
     flexDirection: 'column', 
-    alignItems: 'center'
+    alignItems: 'center',
+    button :{
+        backgroundColor: 'rgba(244, 133, 7, 0.8)',
+        border: 'none',
+        color: 'white',
+        padding: 10,
+        textAlign: 'center',
+    }
 }
 
 export default ContentItem;

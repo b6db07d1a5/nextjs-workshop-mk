@@ -14,6 +14,7 @@ const styles = {
     width: 130,
     display: 'flex',
     padding: 20,
+    color: '#ccc',
     image: {
         paddingRight:5,
         width:15,
