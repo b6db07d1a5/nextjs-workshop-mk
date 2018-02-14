@@ -30,8 +30,9 @@ class Item extends Component {
     render() {
         if(!this.state.isLoading) {
             return (
-                <div>
+                <div style={{padding: 100}}>
                     <ItemDetail item={this.state.menu} />
+                    <p style={{padding:5}}></p>
                     <ItemRating rating={this.state.menu.rating} />
                     <ItemComment itemId={this.props.itemId} />
                 </div>
@@ -41,4 +42,7 @@ class Item extends Component {
     }
 }
 
+const styles = {
+    display: 'flex',
+}
 export default Item;

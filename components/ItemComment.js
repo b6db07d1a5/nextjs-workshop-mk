@@ -49,12 +49,41 @@ class ItemComment extends Component {
             return null
         }
         return (
-            <div>
-                {this.state.comments.map((comment) => <div key={comment.id}> {comment.body} </div>)}
-                <input value={this.state.commentText} onChange={this.handleTextComment} />
-                <button  onClick={this.onClickSubmitComment}> submit </button>
+            <div style={styles}>
+                <span> Coments </span>
+                {this.state.comments.map((comment) => 
+                    <div key={comment.id} style={styles.comment}> {comment.body} </div>)}
+                
+                <div style={{height: 130, display:'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <span style={styles.textUnderComment} > Your Comment </span>
+                    <textarea style={styles.input} rows='3' value={this.state.commentText} onChange={this.handleTextComment} />
+                    <button style={styles.button} onClick={this.onClickSubmitComment}> submit </button>
+                </div>
             </div>
         )
+    }
+}
+
+const styles = {
+    display: 'flex',
+    flexDirection: 'column',
+    comment: {
+        padding: 30,
+        borderBottom: '1px solid #ddd',
+    },
+    textUnderComment : {
+        paddingTop: 30
+    },
+    input: {
+        width: '70%'
+    },
+    button: {
+        backgroundColor: 'rgba(244, 133, 7, 0.8)',
+        border: 'none',
+        color: 'white',
+        padding: 5,
+        textAlign: 'center',
+        width: '70%'
     }
 }
 
