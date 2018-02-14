@@ -33,7 +33,7 @@ class Item extends Component {
                 <div>
                     <ItemDetail item={this.state.menu} />
                     <ItemRating rating={this.state.menu.rating} />
-                    <ItemComment comments={this.state.comments} />
+                    <ItemComment itemId={this.props.itemId} />
                 </div>
             )
         }

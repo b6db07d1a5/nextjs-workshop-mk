@@ -4,7 +4,7 @@ import Router from 'next/router'
 const onClickDetail = (id) => () =>
     Router.push({
         pathname: '/Item',
-        query: { id: id }
+        query: { id: id },
 })
 
 const ContentItem = (props) => {
