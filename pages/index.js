@@ -41,8 +41,6 @@ function cartReducer(state = {items: Array()}, action) {
                 }
                 currItems.push(itemToAdd)
 
-                console.log(currItems)
-
                 return {...state, items: currItems}
             }
             else {
@@ -53,7 +51,6 @@ function cartReducer(state = {items: Array()}, action) {
                     return item
                 });
 
-                console.log(newItems)
                 return {...state, items: newItems}
             }
 

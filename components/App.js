@@ -9,8 +9,10 @@ class App extends Component {
         return (
             <div>
                 <Header />
-                <Sidebar />
-                <Content />
+                <div style={{display: 'flex'}} >
+                    <Sidebar />
+                    <Content />
+                </div>
             </div>
         );
     }

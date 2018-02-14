@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router'
+import { width } from 'window-size';
 
 const onClickDetail = (id) => () =>
     Router.push({
@@ -8,10 +9,11 @@ const onClickDetail = (id) => () =>
 })
 
 const ContentItem = (props) => {
-    const {id, name} = props.item
+    const {id, name, images} = props.item
     const onClickAddTocart = props.onClickAddTocart
     return (
-        <div style={{display: 'inline'}}>
+        <div style={styles}>
+            <img src={`static/images/menus/${images}`} style={{width: 200, height:200}} />
             {name}
             <button onClick={onClickDetail(id)}>
                 detail
@@ -22,5 +24,14 @@ const ContentItem = (props) => {
         </div>
     );
 };
+
+
+const styles={
+    width: 300, 
+    height:300, 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center'
+}
 
 export default ContentItem;

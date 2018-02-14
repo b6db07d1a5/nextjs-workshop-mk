@@ -1,9 +1,24 @@
 import React from 'react';
 
-const CategoryItem = ({itemId, itemName, categoryClick}) => {
+const CategoryItem = ({item, categoryClick}) => {
+    const {id, name, images} = item;
     return (
-        <li onClick={categoryClick(itemId)}>{itemName}</li>
+            <div style={styles} onClick={categoryClick(id)}>
+                <img src={`/static/images/categories/${images}`} style={styles.image} />
+                {name}
+            </div>
     );
 };
+
+const styles = {
+    width: 130,
+    display: 'flex',
+    padding: 20,
+    image: {
+        paddingRight:5,
+        width:15,
+        height: 15
+    }
+}
 
 export default CategoryItem

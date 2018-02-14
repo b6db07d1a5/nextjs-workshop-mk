@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-const styles= {display:'inline-block', paddingRight: 20}
-
 class Header extends Component {
     headerAction = (headerValue) => {
         switch(headerValue) {
@@ -18,20 +16,29 @@ class Header extends Component {
     }
     headerClick = (headerValue) => () => {
         this.props.dispatch(this.headerAction(headerValue))
+        this.props.dispatch({
+            type:'CATEGORY_CLICK', 
+            categoryId: 0
+        })
     }
 
     render() {
         return (
             <div>
-                <div >
-                    <p style={styles} onClick={this.headerClick('menus')}>menus</p>
-                    <p style={styles} onClick={this.headerClick('cart')}>cart</p>
+                <div style={styles}>
+                    <p onClick={this.headerClick('menus')}>menus</p>
+                    <p onClick={this.headerClick('cart')}>cart</p>
                 </div>
                 
             </div>
         );
     }
 }
+
+const styles= {
+    display:'flex'
+}
+
 
 export default connect(state => ({
     content: state.content})

@@ -33,8 +33,9 @@ class Content extends Component {
         }
     }
 
-    retrieveMenus = (categoryId = 1) => {
-        fetch(`http://localhost:3001/menus?categoryId=${categoryId}`)
+    retrieveMenus = (categoryId = 0) => {
+        const query = (categoryId === 0? `` : `categoryId=${categoryId}`)
+        fetch(`http://localhost:3001/menus?${query}`)
         .then((resp) => resp.json()) 
         .then((data) => {
             this.setState({
@@ -73,10 +74,14 @@ class Content extends Component {
                             onClickIncreaseFromCart={this.onClickIncreaseFromCart}
                              /> )
         return (
-            content
+            <div style={styles}>
+                {content}
+            </div>
         );
     }
 }
+
+const styles = {overflowY: 'scroll', height: '100vh'}
 
 export default connect(state => ({
     content: state.content,

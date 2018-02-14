@@ -26,9 +26,16 @@ class Sidebar extends Component {
     
     render() {
         return (
-            <CategoriesList categoryClick={this.categoryClick} categories={this.state.categories} />
+            <div style={styles}>
+                <CategoriesList categoryClick={this.categoryClick} categories={this.state.categories} />
+            </div>
         );
     }
+}
+
+const styles = {
+    backgroundColor:'#ddd', 
+    height: '100vh'
 }
 
 export default connect(state => ({
