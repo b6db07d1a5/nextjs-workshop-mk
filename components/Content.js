@@ -7,14 +7,14 @@ class Content extends Component {
     
     state = {
         menus : Array(),
-        contentDisplay: this.props.content.contentDisplay
+        contentDisplay: this.props.category.contentDisplay
     }
 
     componentDidMount() {
         this.retrieveMenus()
     }
     componentWillReceiveProps(nextProps){
-        const { contentDisplay } = nextProps.content
+        const { contentDisplay } = nextProps.category
         if(contentDisplay === 'menus') {
             const { id } = nextProps.category
             this.retrieveMenus(id)
@@ -84,7 +84,6 @@ class Content extends Component {
 const styles = {overflowY: 'scroll', height: '100vh'}
 
 export default connect(state => ({
-    content: state.content,
     category: state.category,
     cart: state.cart})
 )(Content)

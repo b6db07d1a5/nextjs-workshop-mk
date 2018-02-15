@@ -17,11 +17,9 @@ class Sidebar extends Component {
     categoryClick = (categoryId) => () => {
         this.props.dispatch({
             type:'CATEGORY_CLICK', 
-            categoryId: categoryId
+            categoryId: categoryId,
+            contentDisplay: 'menus'
         })
-        this.props.dispatch({
-            type: 'CART_CLICK', 
-            contentDisplay: 'menus'})
     }
     
     render() {
@@ -39,5 +37,4 @@ const styles = {
 }
 
 export default connect(state => ({
-    category: state.category,
-    content: state.content}))(Sidebar)
+    category: state.category}))(Sidebar)

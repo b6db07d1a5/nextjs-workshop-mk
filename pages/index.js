@@ -4,24 +4,18 @@ import { Provider, connect } from 'react-redux'
 
 import App from '../components/App'
 
-function categoryReducer(state = {}, action) {
+function categoryReducer(state = {contentDisplay: 'menus'}, action) {
     switch(action.type){
         case 'CATEGORY_CLICK':
             return {...state, 
-                id: action.categoryId}
-        default:
-            return state
-    }
-}
-
-function contentReducer(state = {contentDisplay: 'menus'}, action) {
-    switch(action.type){
-        case 'MENUS_CLICK':
-            return {...state,
-                contentDisplay: action.contentDisplay}
+                id: action.categoryId,
+                contentDisplay: action.contentDisplay
+                }
         case 'CART_CLICK':
-            return {...state, 
-                contentDisplay: action.contentDisplay}
+            return {
+                ...state,
+                contentDisplay: action.contentDisplay
+            }
         default:
             return state
     }
@@ -81,7 +75,6 @@ function cartReducer(state = {items: Array()}, action) {
 }
 
 const indexReducer = combineReducers({
-    content: contentReducer,
     category: categoryReducer,
     cart: cartReducer
 })
@@ -90,8 +83,8 @@ const store = createStore(indexReducer)
 
 export default () => {
     return (
-      <Provider store={store}>
-        <App />
-      </Provider>
+        <Provider store={store}>
+            <App />
+        </Provider>
     )
 }

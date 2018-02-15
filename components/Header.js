@@ -6,8 +6,10 @@ class Header extends Component {
         switch(headerValue) {
             case 'menus' : 
                 return {
-                    type: 'MENUS_CLICK',
-                    contentDisplay: headerValue}
+                    type: 'CATEGORY_CLICK',
+                    contentDisplay: headerValue,
+                    categoryId: 0
+                    }
             case 'cart' :
                 return {
                     type: 'CART_CLICK', 
@@ -16,10 +18,6 @@ class Header extends Component {
     }
     headerClick = (headerValue) => () => {
         this.props.dispatch(this.headerAction(headerValue))
-        this.props.dispatch({
-            type:'CATEGORY_CLICK', 
-            categoryId: 0
-        })
     }
 
     render() {
