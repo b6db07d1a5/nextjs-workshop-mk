@@ -33,7 +33,7 @@ class Item extends Component {
                 <div style={{padding: 100}}>
                     <ItemDetail item={this.state.menu} />
                     <p style={{padding:5}}></p>
-                    <ItemRating rating={this.state.menu.rating} />
+                    <ItemRating itemId={this.props.itemId} rating={this.state.menu.rating} />
                     <ItemComment itemId={this.props.itemId} />
                 </div>
             )

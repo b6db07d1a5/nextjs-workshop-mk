@@ -39,10 +39,18 @@ class ItemRating extends Component {
         })
     }
 
-    star = (count) => {
+    star = (starCount) => {
+
+        // let rate = Object.values(rating)
+
+        // let sum = rating.reduce((a, b) => a.val + b.val)
+        // let per = rating.reduce((a, b) => (a.count * a.val) + (b.count * b.val))
+        
+        // let starCount = parseInt(per/sum)
+
         let star = []
-        for(let i = count; i--;){
-            star.push(<img src='static/images/rating/star.png' style={{width:10, height:10}} />)
+        for(let i = starCount; i--;){
+            star.push(<img key={`star${i}`} src='static/images/rating/star.png' style={{width:10, height:10}} />)
         }
         return (
             <div style={{width: 60}}>
@@ -50,25 +58,26 @@ class ItemRating extends Component {
             </div>
         )
     }
+    
     render() {
         const {one, two, three, four, five} = this.state.rating
         return (
             <div style={styles}>
                 <span> Rate This Menu </span>
-                <div style={styles.item}>
-                    {this.star(1)} {one} <button onClick={this.onClickVote('one')}> + </button>
+                <div style={styles.item} onClick={this.onClickVote('one')}>
+                    {this.star(1)} {one}
                 </div>
-                <div style={styles.item}>
-                    {this.star(2)} {two} <button onClick={this.onClickVote('two')}> + </button>
+                <div style={styles.item} onClick={this.onClickVote('two')}>
+                    {this.star(2)} {two}
                 </div>
-                <div style={styles.item}>
-                    {this.star(3)} {three} <button onClick={this.onClickVote('three')}> + </button>
+                <div style={styles.item} onClick={this.onClickVote('three')}>
+                    {this.star(3)} {three}
                 </div>
-                <div style={styles.item}>
-                    {this.star(4)} {four} <button onClick={this.onClickVote('four')}> + </button>
+                <div style={styles.item} onClick={this.onClickVote('four')}>
+                    {this.star(4)} {four}
                 </div>
-                <div style={styles.item}>
-                    {this.star(5)} {five} <button onClick={this.onClickVote('five')}> + </button>
+                <div style={styles.item} onClick={this.onClickVote('five')}>
+                    {this.star(5)} {five}
                 </div>
             </div>
         );
@@ -77,7 +86,8 @@ class ItemRating extends Component {
 
 const styles = {
     item: {
-        display: 'flex'
+        display: 'flex',
+        alignItems: 'stretch'
     },
     display: 'flex',
     flexDirection: 'column',

@@ -16,11 +16,33 @@ class ItemComment extends Component {
         .then((resp) => resp.json()) 
         .then((data) => {
             this.setState({
+                ...this.state,
                 isLoading: false,
+                commentText: '',
                 comments: data
             })
-
         })
+    }
+
+    saveComment = () => {
+        const url = 'http://localhost:3001/comments';
+
+        let data = {
+            body: this.state.commentText,
+            menuId: this.props.itemId
+        }
+        let fetchData = { 
+            method: 'POST', 
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        fetch(url, fetchData)
+        .then(() => {
+            this.retrieveComment(this.props.itemId)
+        });
+
     }
 
     handleTextComment = (e) => {
@@ -30,18 +52,8 @@ class ItemComment extends Component {
         })
     }
 
-    onClickSubmitComment = () => {
-        let com = this.state.comments
-        com.push({
-            "id": this.state.comments.length + 1,
-            "body": this.state.commentText,
-            "menuId": this.props.itemId
-        })
-        this.setState({
-            ...this.state,
-            commentText: '',
-            comments: com
-        })
+    onClickSubmitComment = (e) => {
+        this.saveComment()
     }
 
     render() {
@@ -54,11 +66,16 @@ class ItemComment extends Component {
                 {this.state.comments.map((comment) => 
                     <div key={comment.id} style={styles.comment}> {comment.body} </div>)}
                 
-                <div style={{height: 130, display:'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <span style={styles.textUnderComment} > Your Comment </span>
+                <div style={styles.commentInput}>
+                    <label style={styles.textUnderComment} > Your Comment </label>
                     <textarea style={styles.input} rows='3' value={this.state.commentText} onChange={this.handleTextComment} />
                     <button style={styles.button} onClick={this.onClickSubmitComment}> submit </button>
                 </div>
+                {/* <form onSubmit={this.onClickSubmitComment} style={styles.commentInput}>
+                    <label style={styles.textUnderComment} > Your Comment </label>
+                    <textarea style={styles.input} rows='3' value={this.state.commentText} onChange={this.handleTextComment} />
+                    <button style={styles.button}> submit </button>
+                </form> */}
             </div>
         )
     }
@@ -70,6 +87,13 @@ const styles = {
     comment: {
         padding: 30,
         borderBottom: '1px solid #ddd',
+    },
+    commentInput : {
+        height: 130, 
+        display:'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'space-between'
     },
     textUnderComment : {
         paddingTop: 30
